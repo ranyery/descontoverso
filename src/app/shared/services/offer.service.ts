@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
+import { IOfferInfoResponse } from '../interfaces/offer-info-response';
 import {
   IOffer,
   IOfferResponse,
@@ -43,6 +44,29 @@ export class OfferService {
             (offer) => offer?.status === 'ACTIVE' && offer?.temperature >= 0
           );
           return activeOffers;
+        })
+      );
+  }
+
+  public getOfferById(id: string) {
+    return this.http
+      .get<IOfferInfoResponse>(`${this._baseUrl}`, {
+        params: {
+          operationName: 'OfferQuery',
+          variables: JSON.stringify({ id }),
+          extensions: JSON.stringify({
+            persistedQuery: {
+              version: 1,
+              sha256Hash:
+                'f11464ce6daa1a5aca323b04fd4a348c6100ed19bb98767fb7a0d789b26eb39d',
+            },
+          }),
+        },
+      })
+      .pipe(
+        map((response) => {
+          const offer = response.data.public.offer;
+          return offer;
         })
       );
   }
