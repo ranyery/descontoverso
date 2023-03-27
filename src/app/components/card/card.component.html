@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card__image">
+    <img crossorigin="anonymous" [src]="offer.image.small" [alt]="offer.title">
+  </div>
+  <div class="card__details">
+    <div class="card__header">
+      <div class="card__store">Vendido por <span>{{ offer.store.name }}</span></div>
+      <div class="card__publication-time">10 min</div>
+    </div>
+    <div class="card__title">{{ offer.title }}</div>
+    <div class="card__price">{{ offer.price | currency }}</div>
+  </div>
+</div>

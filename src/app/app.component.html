@@ -1,4 +1,4 @@
 <main>
-  <h1>Projeto em desenvolvimento!</h1>
+  <card *ngFor="let offer of offers; trackBy: identify" [offer]="offer"></card>
 </main>
 <router-outlet></router-outlet>
