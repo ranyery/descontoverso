@@ -1,6 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import {
+  catchError,
+  delay,
+  filter,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  retry,
+  tap,
+  throwIfEmpty,
+} from 'rxjs';
 
 import { IOfferInfoResponse } from '../interfaces/offer-info-response';
 import {
@@ -11,6 +22,9 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OfferService {
+  private readonly MAX_RETRIES = 3;
+  private readonly RETRY_DELAY_MS = 1000;
+
   private _baseUrl = 'https://www.pelando.com.br/api/graphql';
   private _pageInfo?: IPageInfo = undefined;
 
@@ -36,14 +50,24 @@ export class OfferService {
         },
       })
       .pipe(
-        map((response) => {
+        tap((response) => {
           this._pageInfo = response?.data?.public?.storePromotions?.pageInfo;
-
-          const edges = response?.data?.public?.storePromotions?.edges || [];
+        }),
+        map((response) => response?.data?.public?.storePromotions?.edges || []),
+        filter((edges) => edges.length > 0),
+        mergeMap((edges) => {
           const activeOffers = edges.filter(
             (offer) => offer?.status === 'ACTIVE' && offer?.temperature >= 0
           );
-          return activeOffers;
+          return of(activeOffers).pipe(
+            throwIfEmpty(() => new Error('No active offers found'))
+          );
+        }),
+        retry(this.MAX_RETRIES),
+        delay(this.RETRY_DELAY_MS),
+        catchError((error) => {
+          console.error(error);
+          return of([]);
         })
       );
   }
