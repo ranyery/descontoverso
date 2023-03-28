@@ -10,6 +10,6 @@
       </div>
     </div>
     <div class="card__title">{{ offer.title }}</div>
-    <div class="card__price">{{ offer.price | currency }}</div>
+    <div class="card__price">{{ offer.price === 0 ? "Grátis" : offer.price | currency }}</div>
   </div>
 </div>

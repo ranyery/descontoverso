@@ -56,9 +56,13 @@ export class OfferService {
         map((response) => response?.data?.public?.storePromotions?.edges || []),
         filter((edges) => edges.length > 0),
         mergeMap((edges) => {
-          const activeOffers = edges.filter(
-            (offer) => offer?.status === 'ACTIVE' && offer?.temperature >= 0
-          );
+          const activeOffers = edges
+            .filter(
+              (offer) => offer?.status === 'ACTIVE' && offer?.temperature >= 0
+            )
+            .sort(
+              (offerA, offerB) => offerB?.temperature - offerA?.temperature
+            );
           return of(activeOffers).pipe(
             throwIfEmpty(() => new Error('No active offers found'))
           );

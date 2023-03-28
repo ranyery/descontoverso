@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll() {
-    const lastCardId = this.offers.at(this.offers.length - 6)?.id;
+    const lastCardId = this.offers.at(this.offers.length - 12)?.id;
     const lastElement = document.getElementById(lastCardId!);
     const rect = lastElement?.getBoundingClientRect();
     const windowHeight = window.innerHeight;
