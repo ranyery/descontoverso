@@ -32,14 +32,12 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll() {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
+    const lastCardId = this.offers.at(this.offers.length - 6)?.id;
+    const lastElement = document.getElementById(lastCardId!);
+    const rect = lastElement?.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
 
-    if (
-      scrollTop + clientHeight >= scrollHeight - clientHeight * 0.2 &&
-      !this.isLoading
-    ) {
+    if (rect!.bottom <= windowHeight && !this.isLoading) {
       this._getOffers();
     }
   }
