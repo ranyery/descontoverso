@@ -25,11 +25,15 @@ export class CardComponent implements OnInit {
     this._offerService.getOfferById(this.offer.id).subscribe({
       next: (response) => {
         const sourceUrl = response.sourceUrl;
-        window.open(
-          sourceUrl +
-            '?&linkCode=ll1&tag=descontoverso-20&language=pt_BR&ref_=as_li_ss_tl',
-          '_blank'
-        );
+        let queryParams = '';
+        if (sourceUrl.includes('?')) {
+          queryParams =
+            '&linkCode=ll1&tag=descontoverso-20&language=pt_BR&ref_=as_li_ss_tl';
+        } else {
+          queryParams =
+            '?&linkCode=ll1&tag=descontoverso-20&language=pt_BR&ref_=as_li_ss_tl';
+        }
+        window.open(sourceUrl + queryParams, '_blank');
       },
       error: () => {},
       complete: () => {},
