@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrlApiPelando: '/api/graphql',
+  baseUrlApiPelando: 'https://www.pelando.com.br/api/graphql',
 };
 
 /*
