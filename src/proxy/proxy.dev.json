@@ -1,0 +1,8 @@
+{
+  "/api/graphql": {
+    "target": "https://www.pelando.com.br/api/graphql",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
