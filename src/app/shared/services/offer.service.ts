@@ -12,6 +12,7 @@ import {
   tap,
   throwIfEmpty,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 import { IOfferInfoResponse } from '../interfaces/offer-info-response';
 import {
@@ -25,7 +26,7 @@ export class OfferService {
   private readonly MAX_RETRIES = 3;
   private readonly RETRY_DELAY_MS = 1000;
 
-  private _baseUrl = 'https://www.pelando.com.br/api/graphql';
+  private _baseUrl = environment.baseUrlApiPelando;
   private _pageInfo?: IPageInfo = undefined;
 
   constructor(private http: HttpClient) {}
