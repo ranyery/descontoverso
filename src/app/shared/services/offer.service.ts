@@ -29,16 +29,16 @@ export class OfferService {
   private _baseUrl = environment.baseUrlApiPelando;
   private _pageInfo?: IPageInfo = undefined;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly _http: HttpClient) {}
 
   public getOffers(): Observable<IOffer[]> {
-    return this.http
+    return this._http
       .get<IOfferResponse>(`${this._baseUrl}`, {
         params: {
           operationName: 'StorePromotionsQuery',
           variables: JSON.stringify({
             storeId: '367',
-            limit: 25,
+            limit: 12,
             after: this._pageInfo?.endCursor,
           }),
           extensions: JSON.stringify({
@@ -52,7 +52,11 @@ export class OfferService {
       })
       .pipe(
         tap((response) => {
-          this._pageInfo = response?.data?.public?.storePromotions?.pageInfo;
+          if (response.errors) {
+            throw new Error(response.errors[0].message);
+          }
+
+          this._pageInfo = response.data?.public?.storePromotions?.pageInfo;
         }),
         map((response) => response?.data?.public?.storePromotions?.edges || []),
         filter((edges) => edges.length > 0),
@@ -70,15 +74,16 @@ export class OfferService {
         }),
         retry(this.MAX_RETRIES),
         delay(this.RETRY_DELAY_MS),
-        catchError((error) => {
-          console.error(error);
+        catchError(() => {
+          window.location.reload();
+
           return of([]);
         })
       );
   }
 
   public getOfferById(id: string) {
-    return this.http
+    return this._http
       .get<IOfferInfoResponse>(`${this._baseUrl}`, {
         params: {
           operationName: 'OfferQuery',

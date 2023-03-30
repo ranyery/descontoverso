@@ -1,5 +1,6 @@
 export interface IOfferResponse {
-  data: Data;
+  data?: Data;
+  errors?: Error[];
 }
 
 interface Data {
@@ -79,4 +80,13 @@ export interface IPageInfo {
   hasNextPage: boolean;
   hasPreviousPage: boolean;
   __typename: string;
+}
+
+export interface Error {
+  message: string;
+  extensions: Extensions;
+}
+
+export interface Extensions {
+  code: string;
 }
