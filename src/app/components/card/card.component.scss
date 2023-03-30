@@ -65,6 +65,10 @@
       -webkit-box-orient: vertical;
     }
 
+    &__hot {
+      color: red !important;
+    }
+
     &__price {
       font-size: 2rem;
       color: darkorange;

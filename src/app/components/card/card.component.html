@@ -4,7 +4,10 @@
   </div>
   <div class="card__details">
     <div class="card__header">
-      <div class="card__store">Vendido por <span>{{ offer.store.name }}</span></div>
+      <div class="card__store">
+        Vendido por <span>{{ offer.store.name }}</span>
+        <span class="card__hot" *ngIf="offer.temperature >= 100"> Super oferta!</span>
+      </div>
       <div class="card__publication-time">
         {{ offer.timestamps.approvedAt | elapsedTime }}
       </div>
