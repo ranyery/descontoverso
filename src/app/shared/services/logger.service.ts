@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoggerService {
   private _isLogEnabled: boolean;
 
-  constructor() {
-    this._isLogEnabled = !environment.production;
+  constructor(private _localStorageService: LocalStorageService) {
+    const mode = this._localStorageService.getItem('mode');
+    this._isLogEnabled = !environment.production || mode === 'debug';
   }
 
   public log(message: any, ...optionalParams: any[]): void {
