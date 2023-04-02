@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { IOffer } from 'src/app/shared/interfaces/offer-response';
+import { LoggerService } from 'src/app/shared/services/logger.service';
 import { OfferService } from 'src/app/shared/services/offer.service';
 
 @Component({
@@ -11,7 +12,10 @@ export class HomeComponent implements OnInit {
   public offers: IOffer[] = [];
   public isLoading: boolean = true;
 
-  constructor(private _offerService: OfferService) {}
+  constructor(
+    private _offerService: OfferService,
+    private _loggerService: LoggerService
+  ) {}
 
   ngOnInit(): void {
     this._getOffers();
@@ -24,8 +28,9 @@ export class HomeComponent implements OnInit {
         this.offers.push(...offers);
         this.isLoading = false;
       },
-      error: () => {},
-      complete: () => {},
+      error: (error) => {
+        this._loggerService.error(error);
+      },
     });
   }
 
