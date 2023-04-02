@@ -1,6 +1,6 @@
 {
   "name": "descontoverso",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start:dev": "ng serve --configuration=development",
@@ -20,6 +20,8 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "@vercel/analytics": "^0.1.11",
+    "primeicons": "^6.0.1",
+    "primeng": "^14.2.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
