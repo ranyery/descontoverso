@@ -8,7 +8,7 @@ import { LocalStorageService } from './shared/services/local-storage.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [MessageService, Storage],
+  providers: [MessageService],
 })
 export class AppComponent implements OnInit {
   constructor(
